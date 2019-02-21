@@ -66,6 +66,8 @@ namespace tinyfsm
   // check if both fsm and state class share same fsmtype
   template<typename F, typename S>
   struct is_same_fsm : std::is_same< typename F::fsmtype, typename S::fsmtype > { };
+  // https://blog.csdn.net/czyt1988/article/details/52812797
+  // 返回true or false
 #endif
 
   template<typename S>
@@ -95,6 +97,17 @@ namespace tinyfsm
     template<typename S>
     static constexpr S & state(void) {
       static_assert(is_same_fsm<F, S>::value, "accessing state of different state machine");
+      /**
+       * 如果第一个参数常量表达式的值为真(true或者非零值)，那么static_assert不做任何事情，就像它不存在一样，
+       * 否则会产生一条编译错误，错误位置就是该static_assert语句所在行，错误提示就是第二个参数提示字符串。
+       * 使用static_assert，我们可以在编译期间发现更多的错误，用编译器来强制保证一些契约，并帮助我们改善编译信息的可读性，
+       * 尤其是用于模板的时候。static_assert可以用在全局作用域中，命名空间中，类作用域中，函数作用域中，几乎可以不受限制的使用。
+       * 编译器在遇到一个static_assert语句时，通常立刻将其第一个参数作为常量表达式进行演算，但如果该常量表达式依赖于某些模板参数，
+       * 则延迟到模板实例化时再进行演算，这就让检查模板参数成为了可能。
+       * assert是运行期断言，它用来发现运行期间的错误，不能提前到编译期发现错误，也不具有强制性，也谈不上改善编译信息的可读性，
+       * 既然是运行期检查，对性能当然是有影响的，所以经常在发行版本中，assert都会被关掉；
+       */
+
       return _state_instance<S>::value;
     }
 
