@@ -53,14 +53,26 @@ struct Switch
 };
 
 struct On : Switch {
+public:
+    On() {
+        cout << "状态on 构造函数" << endl;
+    }
     void react(Toggle const &) override {
+        cout << "状态on 对于toggle的响应" << endl;
         transit<Off>();
+        cout << "状态on 对于toggle的响应结束" << endl;
     };
 };
 
 struct Off : Switch {
+public:
+    Off() {
+        cout << "状态off 构造函数" << endl;
+    }
     void react(Toggle const &) override {
+        cout << "状态off 对于toggle的响应" << endl;
         transit<On>();
+        cout << "状态off 对于toggle的响应结束" << endl;
     };
 };
 

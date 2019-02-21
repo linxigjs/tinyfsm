@@ -110,7 +110,6 @@ namespace tinyfsm
        * assert是运行期断言，它用来发现运行期间的错误，不能提前到编译期发现错误，也不具有强制性，也谈不上改善编译信息的可读性，
        * 既然是运行期检查，对性能当然是有影响的，所以经常在发行版本中，assert都会被关掉；
        */
-
       return _state_instance<S>::value;
     }
 
