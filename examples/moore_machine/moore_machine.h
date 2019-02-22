@@ -12,8 +12,8 @@ struct Toggle : tinyfsm::Event { };
 //
 struct Switch : tinyfsm::MooreMachine<Switch>
 {
-  /* pure virtual reaction (override required in all states) */
-  virtual void react(Toggle const &) = 0;
+/* pure virtual reaction (override required in all states) */
+virtual void react(Toggle const &) = 0;
 };
 
 
@@ -24,14 +24,22 @@ struct Off; // forward declaration
 
 struct On : Switch
 {
-  void entry() override { std::cout << "* Closing ciruit (light goes ON)" << std::endl; };
-  void react(Toggle const &) override { transit<Off>(); };
+void entry() override {
+    std::cout << "* Closing ciruit (light goes ON)" << std::endl;
+};
+void react(Toggle const &) override {
+    transit<Off>();
+};
 };
 
 struct Off : Switch
 {
-  void entry() override { std::cout << "* Opening ciruit (light goes OFF)" << std::endl; };
-  void react(Toggle const &) override { transit<On>(); };
+void entry() override {
+    std::cout << "* Opening ciruit (light goes OFF)" << std::endl;
+};
+void react(Toggle const &) override {
+    transit<On>();
+};
 };
 
 FSM_INITIAL_STATE(Switch, Off)
